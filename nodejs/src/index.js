@@ -14,7 +14,7 @@ const argv = yargs
     {
       from: {
         description: 'Input format',
-        choices: ['ped'],
+        choices: ['ped', 'boadicea', 'gedcom'],
         demandOption: true,
       },
     },

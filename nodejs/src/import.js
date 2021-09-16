@@ -262,7 +262,7 @@ PedigreeImport.initFromBOADICEA = function(inputText, saveIDAsExternalID) {
   if (inputLines.length <= 2) {
     throw 'Unable to import: no data';
   }
-  if (inputLines[0].match(/^BOADICEA import pedigree file format 2/i) === null) {
+  if (inputLines[0].match(/^BOADICEA import pedigree file format [12]/i) === null) {
     throw 'Unable to import: unsupported version of the BOADICEA format';
   }
   inputLines.splice(0,2); // remove 2 header lines
@@ -284,7 +284,7 @@ PedigreeImport.initFromBOADICEA = function(inputText, saveIDAsExternalID) {
     var parts = inputLines[i].split(/\s+/);
     //console.log("Parts: " + JSON.stringify(parts));
 
-    if (parts.length < 24) {
+    if (parts.length < 19) {
       throw 'Input line has not enough columns: [' + inputLines[i] + ']';
     }
 

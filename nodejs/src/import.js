@@ -1,5 +1,6 @@
 const Pedigree = require('./model.js');
 
+
 var isInt = function(n) {
   //return +n === n && !(n % 1);
   //return !(n % 1);

@@ -7,22 +7,33 @@ const importPedigree = require('./import.js');
 const exportPedigree = require('./export.js');
 const Pedigree = require('./model.js');
 
+const readFileOrStdinSync = function(path) {
+  // If '-', read from the file descriptor for stdin instead
+  var inputFile = path === '-' ? 0 : path;
+
+  // Read file into single string
+  return fs.readFileSync(inputFile, 'utf-8');
+}
 
 const argv = yargs
   .command('import',
     'Convert from a non-standard format into GA4GH pedigree',
-    {
-      from: {
-        description: 'Input format',
+    function (yargs) {
+      return yargs.option('from', {
+        describe: 'Input format',
         choices: ['ped', 'boadicea', 'gedcom'],
         demandOption: true,
-      },
+      }).option('file', {
+        describe: 'Input file (- for stdin)',
+        string: true,
+        nargs: 1,
+        demandOption: true,
+      });
     },
     function(argv) {
       var pedigree = null;
-      // Read stdin into single string
-      var input = fs.readFileSync(0, 'utf-8');
 
+      var input = readFileOrStdinSync(argv.file);
       if (input.length <= 0) {
         yargs.exit(1, 'Empty input');
       }
@@ -41,20 +52,24 @@ const argv = yargs
     })
   .command('export',
     'Export from GA4GH pedigree into a non-standard format',
-    {
-      to: {
-        description: 'Output format',
+    function (yargs) {
+      return yargs.option('to', {
+        describe: 'Output format',
         choices: ['ped'],
         demandOption: true,
-      },
+      }).option('file', {
+        describe: 'Input file (- for stdin)',
+        string: true,
+        nargs: 1,
+        demandOption: true,
+      });
     },
     function(argv) {
-      // Read stdin into single string
-      var input = fs.readFileSync(0, 'utf-8');
-
+      var input = readFileOrStdinSync(argv.file);
       if (input.length <= 0) {
         yargs.exit(1, 'Empty input');
       }
+
       var pedigreeJSON = JSON.parse(input);
 
       var pedigree = new Pedigree(pedigreeJSON);

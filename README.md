@@ -23,15 +23,19 @@ npm install -g
 cd ..
 ```
 
-You can now use the `pedigree-tools` cli, which reads from stdin and outputs to stdout.
+You can now use the `pedigree-tools` cli, for example:
 
 
 2. Convert a pedigree into GA4GH pedigree format from another format
 ```
-pedigree-tools import --from=ped < examples/simple.ped > test.json
+pedigree-tools import --from ped --file examples/simple.ped > test.json
 ```
 
 3. Convert a pedigree from GA4GH pedigree format to another format
 ```
-pedigree-tools export --to=ped < test.json
+pedigree-tools export --to ped --file test.json > test.ped
 ```
+
+It also supports streaming so the round-trip can be done in one line:
+
+cat examples/simple.ped | pedigree-tools import --from ped --file - | pedigree-tools export --to ped --file -

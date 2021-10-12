@@ -51,7 +51,7 @@ PedigreeImport.prototype = {
  *   Column 10+: Disease and marker phenotypes (as in the original pedigree file)
  * ===============================================================================================
  */
-PedigreeImport.initFromPED = function(inputText, acceptOtherPhenotypes, markEvaluated, saveIDAsExternalID, affectedCodeOne, disorderNames) {
+PedigreeImport.initFromPED = function(inputText, acceptOtherPhenotypes, markEvaluated, affectedCodeOne, disorderNames) {
   var inputLines = inputText.match(/[^\r\n]+/g);
   if (inputLines.length == 0) {
     throw 'Unable to import: no data';
@@ -91,6 +91,7 @@ PedigreeImport.initFromPED = function(inputText, acceptOtherPhenotypes, markEval
 
     if (familyPrefix == '') {
       familyPrefix = parts[0];
+      newG.setFamilyId(familyPrefix);
     } else {
       if (parts[0] != familyPrefix) {
         throw 'Unsupported feature: multiple families detected within the same pedigree';
@@ -111,9 +112,7 @@ PedigreeImport.initFromPED = function(inputText, acceptOtherPhenotypes, markEval
     }
     var properties = {'gender': gender};
 
-    if (saveIDAsExternalID) {
-      properties['externalID'] = pedID;
-    }
+    properties['externalID'] = pedID;
 
     var pedigreeID = newG.addIndividual(properties);
 
@@ -257,7 +256,7 @@ PedigreeImport.initFromPED = function(inputText, acceptOtherPhenotypes, markEval
  *   CK56: Cytokeratin 56 status, 0 = unspecified, N = negative, P = positive
  * ===============================================================================================
  */
-PedigreeImport.initFromBOADICEA = function(inputText, saveIDAsExternalID) {
+PedigreeImport.initFromBOADICEA = function(inputText) {
   var inputLines = inputText.match(/[^\r\n]+/g);
 
   if (inputLines.length <= 2) {
@@ -291,6 +290,7 @@ PedigreeImport.initFromBOADICEA = function(inputText, saveIDAsExternalID) {
 
     if (familyPrefix == '') {
       familyPrefix = parts[0];
+      newG.setFamilyId(familyPrefix);
     } else {
       if (parts[0] != familyPrefix) {
         throw 'Unsupported feature: multiple families detected within the same pedigree';
@@ -313,9 +313,7 @@ PedigreeImport.initFromBOADICEA = function(inputText, saveIDAsExternalID) {
     }
     var properties = {'gender': gender, 'name': name};
 
-    if (saveIDAsExternalID) {
-      properties['externalID'] = extID;
-    }
+    properties['externalID'] = extID;
 
     var deadStatus = parts[8];
     if (deadStatus == '1') {
@@ -440,7 +438,7 @@ PedigreeImport.initFromBOADICEA = function(inputText, saveIDAsExternalID) {
  *    INFERTILE: "M"
  * ===============================================================================================
  */
-PedigreeImport.initFromGEDCOM = function(inputText, markEvaluated, saveIDAsExternalID) {
+PedigreeImport.initFromGEDCOM = function(inputText, markEvaluated) {
   var inputLines = inputText.match(/[^\r\n]+/g);
   if (inputLines.length == 0) {
     throw 'Unable to import: no data';
@@ -585,7 +583,7 @@ PedigreeImport.initFromGEDCOM = function(inputText, markEvaluated, saveIDAsExter
     externalIDToID[nextPerson.id] = pedigreeID;
 
     var cleanedID = nextPerson.id.replace(/@/g, '');
-    var properties = saveIDAsExternalID ? {'externalID': cleanedID} : {};
+    var properties = {'externalID': cleanedID};
 
     properties['gender'] = 'U';     // each person should have some gender set
 

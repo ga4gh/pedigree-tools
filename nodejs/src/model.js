@@ -21,6 +21,10 @@ var Model = function(data) {
 };
 
 Model.prototype = {
+  setFamilyId: function(id) {
+    this.pedigree.identifiers = [Identifier.create({'id': id})];
+  },
+
   // returns id
   addIndividual: function(properties) {
     var id = this.n;

@@ -16,6 +16,8 @@ PedigreeExport.prototype = {
  *   Sex (1=male; 2=female; other=unknown)
  *   Phenotype
  *
+ *   Individual, Paternal, and Maternal IDs use the first external id available, or else the internal logical id
+ *
  *   Phenotype, by default, should be coded as:
  *      -9 missing
  *       0 missing
@@ -25,12 +27,26 @@ PedigreeExport.prototype = {
 PedigreeExport.exportAsPED = function(pedigree) {
   var output = '';
 
-  var familyID = '1';
+  var getFirstIdentifier = function(protobufObj, fallback) {
+    if (protobufObj.hasOwnProperty('identifiers') && protobufObj.identifiers.length > 0) {
+      return protobufObj.identifiers[0].id;
+    } else {
+      return fallback;
+    }
+  };
+
+  var getIndividualIdentifier = function(individualId) {
+    var individual = pedigree.getIndividual(individualId);
+    // Use first external id if available
+    return getFirstIdentifier(individual, individualId);
+  };
+
+  var familyID = getFirstIdentifier(pedigree.pedigree, '1');
 
   for (var i = 0; i < pedigree.n; i++) {
     var individual = pedigree.getIndividual(i);
 
-    output += familyID + ' ' + i + ' ';
+    output += familyID + ' ' + getIndividualIdentifier(i) + ' ';
 
     // mother & father
     var parents = pedigree.getParents(i);
@@ -39,12 +55,11 @@ PedigreeExport.exportAsPED = function(pedigree) {
       var father = parents[0];
       var mother = parents[1];
 
-      if ( pedigree.isFemale(parents[0]) ||
-                pedigree.isMale(parents[1])) {
+      if (pedigree.isFemale(parents[0]) || pedigree.isMale(parents[1])) {
         father = parents[1];
         mother = parents[0];
       }
-      output += father + ' ' + mother + ' ';
+      output += getIndividualIdentifier(father) + ' ' + getIndividualIdentifier(mother) + ' ';
     } else {
       output += '0 0 ';
     }

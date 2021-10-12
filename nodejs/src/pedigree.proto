@@ -6,6 +6,7 @@ package org.ga4gh.pedigree.v1;
 // https://github.com/ga4gh-cp/pedigree/blob/d7ba3172aa4e4b36f96641d990bafd6600f3c509/model.md
 
 message Pedigree {
+    repeated Identifier identifiers = 7;    // list of string   optional    external identifiers for the pedigree
     string proband = 1; // ID optional 	id of Individual that is the index case for the family
     string consultand = 2; //  	ID 	optional 	id of Individual that is the focus of the current analysis
     string date = 3; //  	Date 	optional 	the date the pedigree was collected, as ISO full or partial date, i.e. YYYY, YYYY-MM, or YYYY-MM-DD

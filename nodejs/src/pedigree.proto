@@ -6,37 +6,72 @@ package org.ga4gh.pedigree.v1;
 // https://github.com/ga4gh-cp/pedigree/blob/d7ba3172aa4e4b36f96641d990bafd6600f3c509/model.md
 
 message Pedigree {
-    repeated Identifier identifiers = 7;    // list of string   optional    external identifiers for the pedigree
-    string proband = 1; // ID optional 	id of Individual that is the index case for the family
-    string consultand = 2; //  	ID 	optional 	id of Individual that is the focus of the current analysis
-    string date = 3; //  	Date 	optional 	the date the pedigree was collected, as ISO full or partial date, i.e. YYYY, YYYY-MM, or YYYY-MM-DD
-    Concept reason = 4; //  	Concept 	optional 	the health condition being investigated in the family; if any Individual has the affected property defined, it refers to this condition
-    repeated Individual individuals = 5;
-    repeated Relationship relationships = 6;
+    // individuals: the members of the the family
+    repeated Individual individuals = 1;
+
+    // relationships: the relationships between the family members
+    repeated Relationship relationships = 2;
+
+    // identifiers: external identifiers for the pedigree
+    repeated Identifier identifiers = 3;
+
+    // proband: logical id of Individual that is the index case for the family
+    optional string proband = 4;
+
+    // consultand: logical id of Individual that is the focus of the current analysis
+    optional string consultand = 5;
+
+    // date: the date the pedigree was collected, as ISO full or partial date, i.e. YYYY, YYYY-MM, or YYYY-MM-DD
+    optional string date = 6;
+
+    // reason: the health condition being investigated in the family; if any Individual has the affected property defined, it refers to this condition
+    optional Concept reason = 7;
 }
 
 //  version of Person
 message Individual {
-    string id = 1;  //	internal ID 	required 	logical id
-    string name = 2; //	name of the individual
-    repeated Identifier identifiers = 8; 	// list of string 	optional 	external identifiers for the individual
-    Concept sex = 4; // Concept	required 	Sex assigned at birth, values: male, female, other, unknown; See: https://confluence.hl7.org/display/VOC/Gender+Harmony+Context+Definitions and https://www.hl7.org/fhir/valueset-administrative-gender.html
-    Concept gender = 5;	// Concept 	optional 	Presumed or reported gender identity, values: male, female, non-binary, non-disclosed, trans, ...; See: https://confluence.hl7.org/display/VOC/Gender+Harmony+Context+Definitions
-    Concept lifeStatus = 6; // Concept 	recommended 	The presumed/accepted life status of the individual as of the pedigree collection date; one of: alive, deceased, unborn
-    bool affected = 7; //	affected  boolean     optional    whether or not the individual is affected by the condition being investigated in this pedigree (Pedigree.reason)
+    // id: logical id for the individual used for references to this individual within the model
+    string id = 1;
+
+    // sex: Sex assigned at birth, values: male, female, other, unknown; See: https://confluence.hl7.org/display/VOC/Gender+Harmony+Context+Definitions and https://www.hl7.org/fhir/valueset-administrative-gender.html
+    Concept sex = 2;
+
+    // affected: whether or not the individual is affected by the condition being investigated in this pedigree (Pedigree.reason)
+    optional bool affected = 3;
+
+    // name: the name of the individual
+    optional string name = 4;
+
+    // identifiers: external identifiers for the individual
+    repeated Identifier identifiers = 5;
+
+    // gender: Presumed or reported gender identity, values: male, female, non-binary, non-disclosed, trans, ...; See: https://confluence.hl7.org/display/VOC/Gender+Harmony+Context+Definitions
+    optional Concept gender = 6;
+
+    // lifeStatus: The presumed/accepted life status of the individual as of the pedigree collection date; one of: alive, deceased, unborn
+    optional Concept lifeStatus = 7;
 }
 
 message Relationship {
-    string individual = 2; //	ID required 	identifier of the subject Individual; equivalent to the FHIR "Scoping Individual" and the Biolink "Subject"
-    Concept relation = 4; //	Concept 	required 	the relationship the `relative` has to the `individual` (e.g., if the `relative` is the `individual`'s parent, then relation would be Parent); terms should come from the relationship terminology
-    string relative = 3; //	ID 	required 	identifier of the relative Individual; equivalent to the FHIR "Player" and the Biolink "Object"
+    // individual: identifier of the subject Individual; equivalent to the FHIR "Scoping Individual" and the Biolink "Subject"
+    string individual = 1;
+
+    // relation: the relationship the `relative` has to the `individual` (e.g., if the `relative` is the `individual`'s parent, then relation would be Parent); terms should come from the relationship terminology
+    Concept relation = 2;
+
+    // relative: logical id of the relative Individual; equivalent to the FHIR "Player" and the Biolink "Object"
+    string relative = 3;
 }
 
 message Concept {
-    string id = 1; // id required  a CURIE associated with the concept (e.g., HP:0000118)
-    string label = 2; // label  string  optional    a human-readable label for the concept
+    // id: a CURIE associated with the concept (e.g., HP:0000118)
+    string id = 1;
+
+    // label: a human-readable label for the concept (e.g., "Phenotypic abnormality")
+    optional string label = 2;
 }
 
 message Identifier {
-    string id = 1; //	ID 	required 	an external identifier such as a medical record number, participant id, or insurance number;  URI/CURIE is preferred
+    // id: an external identifier such as a medical record number, participant id, or insurance number;  URI/CURIE is preferred
+    string id = 1;
 }

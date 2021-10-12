@@ -95,24 +95,24 @@ Model.prototype = {
   // motherId or fatherId may be null
   addChild: function(motherId, fatherId, childId) {
     if (motherId !== null) {
-      this.pedigree.relationships.push(Relationship.create({subject: motherId, relationship: IS_MOTHER, relative: childId}));
+      this.pedigree.relationships.push(Relationship.create({individual: motherId, relation: IS_MOTHER, relative: childId}));
     }
     if (fatherId !== null) {
-      this.pedigree.relationships.push(Relationship.create({subject: fatherId, relationship: IS_FATHER, relative: childId}));
+      this.pedigree.relationships.push(Relationship.create({individual: fatherId, relation: IS_FATHER, relative: childId}));
     }
   },
 
   // [father, mother]
   getParents: function(id) {
-    var fatherships = this.pedigree.relationships.filter(rel => rel.relationship.id == IS_FATHER.id && rel.relative == id);
-    var motherships = this.pedigree.relationships.filter(rel => rel.relationship.id == IS_MOTHER.id && rel.relative == id);
+    var fatherships = this.pedigree.relationships.filter(rel => rel.relation.id == IS_FATHER.id && rel.relative == id);
+    var motherships = this.pedigree.relationships.filter(rel => rel.relation.id == IS_MOTHER.id && rel.relative == id);
     var father = null;
     var mother = null;
     if (fatherships.length === 1) {
-      father = fatherships[0].subject;
+      father = fatherships[0].individual;
     }
     if (motherships.length === 1) {
-      mother = motherships[0].subject;
+      mother = motherships[0].individual;
     }
     if (father !== null || mother !== null) {
       return [father, mother];

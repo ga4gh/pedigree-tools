@@ -44,6 +44,10 @@ PedigreeExport.exportAsPED = function(pedigree) {
   var familyID = getFirstIdentifier(pedigree.pedigree, '1');
 
   for (var i = 0; i < pedigree.n; i++) {
+    if (i > 0) {
+      output += '\n';
+    }
+
     var individual = pedigree.getIndividual(i);
 
     output += familyID + ' ' + getIndividualIdentifier(i) + ' ';
@@ -80,7 +84,7 @@ PedigreeExport.exportAsPED = function(pedigree) {
         status = 1;
       }
     }
-    output += status + '\n';
+    output += status;
   }
 
   return output;

@@ -74,4 +74,7 @@ message Concept {
 message Identifier {
     // id: an external identifier such as a medical record number, participant id, or insurance number;  URI/CURIE is preferred
     string id = 1;
+
+    // label: a human-readable description
+    optional string label = 2;
 }

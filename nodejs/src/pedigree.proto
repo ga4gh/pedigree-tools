@@ -18,14 +18,11 @@ message Pedigree {
     // proband: logical id of Individual that is the index case for the family
     optional string proband = 4;
 
-    // consultand: logical id of Individual that is the focus of the current analysis
-    optional string consultand = 5;
-
     // date: the date the pedigree was collected, as ISO full or partial date, i.e. YYYY, YYYY-MM, or YYYY-MM-DD
-    optional string date = 6;
+    optional string date = 5;
 
     // reason: the health condition being investigated in the family; if any Individual has the affected property defined, it refers to this condition
-    optional Concept reason = 7;
+    optional Concept reason = 6;
 }
 
 //  version of Person
@@ -53,13 +50,13 @@ message Individual {
 }
 
 message Relationship {
-    // individual: identifier of the subject Individual; equivalent to the FHIR "Scoping Individual" and the Biolink "Subject"
-    string individual = 1;
+    // subject: identifier of the subject Individual; equivalent to the Biolink "Subject" and similar to the FHIR "Player"
+    string subject = 1;
 
-    // relation: the relationship the `relative` has to the `individual` (e.g., if the `relative` is the `individual`'s parent, then relation would be Parent); terms should come from the relationship terminology
-    Concept relation = 2;
+    // relationship: the relationship the subject has to the relative (e.g., if the subject is the relative's mother, then relation would be isBiologicalMother); terms should come from the KIN terminology
+    Concept relationship = 2;
 
-    // relative: logical id of the relative Individual; equivalent to the FHIR "Player" and the Biolink "Object"
+    // relative: identifier of the relative Individual; equivalent to the Biolink "Object" and similar to the FHIR "Scoping Individual"
     string relative = 3;
 }
 

@@ -73,7 +73,7 @@ lines.forEach(line => {
 				+ 'Please update the concept object.'
 			);
 		}
-		Ontology[concept] = { code, display };
+		Ontology[concept] = { id: code, label: display };
 	}
 });
 

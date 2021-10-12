@@ -11,8 +11,8 @@ var Identifier = proto.lookupType('org.ga4gh.pedigree.v1.Identifier');
 
 const Ontology = require('./ontology.js'); 
 
-MOTHER = Concept.create({'id': Ontology.IS_BIOLOGICAL_MOTHER});
-FATHER = Concept.create({'id': Ontology.IS_BIOLOGICAL_FATHER});
+MOTHER = Concept.create(Ontology.IS_BIOLOGICAL_MOTHER);
+FATHER = Concept.create(Ontology.IS_BIOLOGICAL_FATHER);
 
 
 var Model = function(data) {

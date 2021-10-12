@@ -9,10 +9,10 @@ var Relationship = proto.lookupType('org.ga4gh.pedigree.v1.Relationship');
 var Concept = proto.lookupType('org.ga4gh.pedigree.v1.Concept');
 var Identifier = proto.lookupType('org.ga4gh.pedigree.v1.Identifier');
 
+const Ontology = require('./ontology.js'); 
 
-// Placeholder for proper ontology use
-MOTHER = Concept.create({'id': 'MOTHER'});
-FATHER = Concept.create({'id': 'FATHER'});
+MOTHER = Concept.create({'id': Ontology.IS_BIOLOGICAL_MOTHER});
+FATHER = Concept.create({'id': Ontology.IS_BIOLOGICAL_FATHER});
 
 
 var Model = function(data) {

@@ -37,7 +37,7 @@ const argv = yargs
       }
 
       // Serialize to JSON output
-      console.log(JSON.stringify(pedigree.toJSON()));
+      console.log(JSON.stringify(pedigree.toJSON(), null, 2));
     })
   .command('export',
     'Export from GA4GH pedigree into a non-standard format',

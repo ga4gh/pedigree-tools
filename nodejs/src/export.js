@@ -89,5 +89,50 @@ PedigreeExport.exportAsPED = function(pedigree) {
 
   return output;
 };
+/* ===============================================================================================
+ *
+ *  BOADICEA format:
+ *  (from https://pluto.srl.cam.ac.uk/bd3/v3/docs/BWA_v3_user_guide.pdf)
+ *
+ *  line1: BOADICEA import pedigree file format 2.0
+ *  line2: column titles
+ *  line3+: one patient per line, with values separated by spaces or tabs, as follows:
+ *
+ *   FamID: Family/pedigree ID, character string (maximum 13 characters)
+ *   Name: First name/ID of the family member, character string (maximum 8 characters)
+ *   Target: The family member for whom the BOADICEA risk calculation is made, 1 = target for BOADICEA risk calculation, 0 = other family members. There must only be one BOADICEA target individual.
+ *   IndivID: Unique ID of the family member, character string (maximum 7 characters)
+ *   FathID: Unique ID of their father, 0 = no father, or character string (maximum 7 characters)
+ *   MothID: Unique ID of their mother, 0 = unspecified, or character string (maximum 7 characters)
+ *   Sex: M or F
+ *   Twin: Identical twins, 0 = no identical twin, any non-zero character = twin.
+ *   Dead: The current status of the family member, 0 = alive, 1 = dead
+ *   Age: Age at last follow up, 0 = unspecified, integer = age at last follow up
+ *   Yob: Year of birth, 0 = unspecified, or integer (consistent with Age if the person is alive)
+ *   1BrCa: Age at first breast cancer diagnosis, 0 = unaffected, integer = age at diagnosis, AU = unknown age at diagnosis (affected unknown)
+ *   2BrCa: Age at contralateral breast cancer diagnosis, 0 = unaffected, integer = age at diagnosis, AU = unknown age at diagnosis (affected unknown)
+ *   OvCa: Age at ovarian cancer diagnosis, 0 = unaffected, integer = age at diagnosis, AU = unknown age at diagnosis (affected unknown)
+ *   ProCa: Age at prostate cancer diagnosis 0 = unaffected, integer = age at diagnosis, AU = unknown age at diagnosis (affected unknown)
+ *   PanCa: Age at pancreatic cancer diagnosis 0 = unaffected, integer = age at diagnosis, AU = unknown age at diagnosis (affected unknown)
+ *   Gtest: Genetic test status, 0 = untested, S = mutation search, T = direct gene test
+ *   Mutn: 0 = untested, N = no mutation, 1 = BRCA1 positive, 2 = BRCA2 positive, 3 = BRCA1 and BRCA2 positive
+ *   Ashkn: 0 = not Ashkenazi, 1 = Ashkenazi
+ *   ER: Estrogen receptor status, 0 = unspecified, N = negative, P = positive
+ *   PR: Progestrogen receptor status, 0 = unspecified, N = negative, P = positive
+ *   HER2: Human epidermal growth factor receptor 2 status, 0 = unspecified, N = negative, P = positive
+ *   CK14: Cytokeratin 14 status, 0 = unspecified, N = negative, P = positive
+ *   CK56: Cytokeratin 56 status, 0 = unspecified, N = negative, P = positive
+ * ===============================================================================================
+ */
+PedigreeExport.exportAsBOADICEA = function(boadicea) {
+  var output = '';
+  
+  output += 'BOADICEA import pedigree file format 2.0\n';
+  output += 'FamID, NameTarget, IndivID, FathID, MothID, Sex, Twin, Dead, Age, Yob, 1BrCa, 2BrCa, OvCa, ProCa, PanCa, Gtest, Mutn, Ashkn, ER, PR, HER2, CK14, CK56';
+
+  // todo: populate patients
+
+  return output;
+};
 
 module.exports = PedigreeExport;

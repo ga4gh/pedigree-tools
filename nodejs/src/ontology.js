@@ -50,6 +50,11 @@ const CODE_TO_CONCEPT = {
 	'KIN:044': 'HAS_SPERM_DONOR',
 	'KIN:045': 'HAS_GREAT_GRANDPARENT',
 	'KIN:046': 'HAS_PARENTAL_SIBLING',
+<<<<<<< Updated upstream
+=======
+	'KIN:047': 'IS_GREAT_GRANDCHILD_OF',
+	'KIN:047': 'IS_SEPARATED_PARTNER_OF',
+>>>>>>> Stashed changes
 };
 
 
